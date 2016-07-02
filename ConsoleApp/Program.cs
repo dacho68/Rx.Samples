@@ -29,6 +29,8 @@
       a.SetValue(false); // Low + High +High= Low
       b.SetValue(false); // Low + Low +High= Low
     }
+
+
     public static void TwoOrInputs()
     {
       var a = new LogicalInput();
@@ -42,10 +44,10 @@
       a.SetValue(true);  // 
       b.SetValue(false); // 
       c.SetValue(true); // T + F + T = T
-      a.SetValue(false); // F + F + T= T
+      a.SetValue(false); // F + T + T= T
       c.SetValue(false); // F + F + F = F
-      a.SetValue(true); //T
-      a.SetValue(false); // F
+      b.SetValue(true); // T
+      b.SetValue(false); // F
     }
 
     public static void TripleAndInputs()
@@ -73,7 +75,6 @@
       var c = new LogicalInput();
       var wInputList = new List<IObservable<bool>>();
       wInputList.Add(a.Value); wInputList.Add(b.Value);  wInputList.Add(c.Value);
-      //var wArrayBool = Array.ConvertAll(wInputList.ToArray(), item => (IObservable<bool>)item.Value);
 
       var multiInputs = new AndGate();
       multiInputs.SetupInputList(wInputList.ToArray());
@@ -119,14 +120,15 @@
       var wListener = new SampleListener<int>();
       var wSender = new SampleNumberSender();
       wSender.Subscribe(wListener);
-
+      Console.WriteLine("-----");
+      TwoOrInputs();
+      Console.WriteLine("-----");
       TwoAndInputs();
       Console.WriteLine("-----"); 
       TripleAndInputs();
       Console.WriteLine("-----");
       MultiAndInputs();
-      Console.WriteLine("-----");
-      TwoOrInputs();
+
       Console.ReadKey();
     }
   }

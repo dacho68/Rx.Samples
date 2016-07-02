@@ -10,7 +10,15 @@ namespace ConsoleApp.Modules
   {
     public override void SetValue(bool value)
     {
-      if (mPreviousValue != value)
+      if (!mIsInitialized)
+      {
+        valueStream.OnNext(value);
+        mPreviousValue = value;
+        mIsInitialized = true;
+        return;
+      }
+
+      if (mPreviousValue != value )
       {
         valueStream.OnNext(value);
         mPreviousValue = value;

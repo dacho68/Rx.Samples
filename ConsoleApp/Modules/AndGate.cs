@@ -8,7 +8,6 @@ namespace ConsoleApp.Modules
 {
   public class AndGate : LogicalGate
   {
-   // private AndGate mAndGate; 
     public AndGate() : base() 
     {
     }
