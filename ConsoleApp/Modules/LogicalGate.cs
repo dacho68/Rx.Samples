@@ -15,7 +15,12 @@ namespace ConsoleApp.Modules
     }
 
     protected IObservable<bool>[] mParams;
-   
+
+    public LogicalGate(IObservable<bool> x)
+    {
+      mValueStream = x.Select(Evaluate);
+    }
+
     public LogicalGate(IObservable<bool> x, IObservable<bool> y)
     {
       mValueStream = x.CombineLatest(y, Evaluate);
@@ -103,6 +108,12 @@ namespace ConsoleApp.Modules
     {
       return false;
     }
+
+    protected virtual bool Evaluate(bool x)
+    {
+      return false;
+    }
+
 
     protected virtual bool Evaluate(bool x, bool y)
     {

@@ -11,25 +11,7 @@
 
   class Program
   {
-    public static void TwoAndInputs()
-    {
-      var a = new LogicalInput();
-      var b = new LogicalInput();
-      var c = new LogicalInput();
-
-      var a1 = new AndGate(a.Value, b.Value);
-      var a2 = new AndGate(a1.Value, c.Value);
-      a2.Value.Subscribe(z => Console.WriteLine(z.ToString()));
-
-      a.SetValue(true);
-      b.SetValue(true);
-      c.SetValue(true); // High + High +High = High
-      b.SetValue(false); // High + Low +High= Low
-      b.SetValue(true); // High + High +High= High
-      a.SetValue(false); // Low + High +High= Low
-      b.SetValue(false); // Low + Low +High= Low
-    }
-
+  
 
     public static void TwoOrInputs()
     {
@@ -49,6 +31,68 @@
       b.SetValue(true); // T
       b.SetValue(false); // F
     }
+
+
+    public static void ThreeOrInputs()
+    {
+      var a = new LogicalInput();
+      var b = new LogicalInput();
+      var c = new LogicalInput();
+
+      var a1 = new OrGate(a.Value, b.Value, c.Value);
+      a1.Value.Subscribe(z => Console.WriteLine(z.ToString()));
+
+      a.SetValue(true);  // 
+      b.SetValue(false); // 
+      c.SetValue(true); // T + F + T = T
+      a.SetValue(false); // F + T + T= T
+      c.SetValue(false); // F + F + F = F
+      b.SetValue(true); // T
+      b.SetValue(false); // F
+    }
+
+
+    public static void MultiOrInputs()
+    {
+      var a = new LogicalInput();
+      var b = new LogicalInput();
+      var c = new LogicalInput();
+      var wInputList = new List<IObservable<bool>>();
+      wInputList.Add(a.Value); wInputList.Add(b.Value); wInputList.Add(c.Value);
+
+      var multiInputs = new OrGate();
+      multiInputs.SetupInputList(wInputList.ToArray());
+      multiInputs.Value.Subscribe(z => Console.WriteLine(z.ToString()));
+
+      a.SetValue(true);  // 
+      b.SetValue(false); // 
+      c.SetValue(true); // T + F + T = T
+      a.SetValue(false); // F + T + T= T
+      c.SetValue(false); // F + F + F = F
+      b.SetValue(true); // T
+      b.SetValue(false); // F
+    }
+
+
+    public static void TwoAndInputs()
+    {
+      var a = new LogicalInput();
+      var b = new LogicalInput();
+      var c = new LogicalInput();
+
+      var a1 = new AndGate(a.Value, b.Value);
+      var a2 = new AndGate(a1.Value, c.Value);
+      a2.Value.Subscribe(z => Console.WriteLine(z.ToString()));
+
+      a.SetValue(true);
+      b.SetValue(true);
+      c.SetValue(true); // High + High +High = High
+      b.SetValue(false); // High + Low +High= Low
+      b.SetValue(true); // High + High +High= High
+      a.SetValue(false); // Low + High +High= Low
+      b.SetValue(false); // Low + Low +High= Low
+    }
+
 
     public static void TripleAndInputs()
     {
@@ -89,10 +133,8 @@
       b.SetValue(false); // Low + Low +High= Low
     }
 
-
-    static void Main(string[] args)
+    static void TestInterval()
     {
-
       IObservable<long> intervalSubject = Observable.Interval(TimeSpan.FromMilliseconds(125));
 
       var stopwatch = new Stopwatch();
@@ -115,14 +157,69 @@
       Console.WriteLine("Time elapsed: {0}", stopwatch.Elapsed);
       wHandle.Dispose();
 
+    }
+
+    static void TestInterval()
+    {
+      IObservable<long> intervalSubject = Observable.Interval(TimeSpan.FromMilliseconds(125));
+
+      var stopwatch = new Stopwatch();
+
+      // Begin timing.
+      stopwatch.Start();
+
+      var wHandle = intervalSubject
+        // .Sample(TimeSpan.FromMilliseconds(100))
+           .Subscribe(x =>
+           {
+               Console.WriteLine("Received: {0} {1}", DateTime.UtcNow, x);
+           });
+
+      Thread.Sleep(TimeSpan.FromSeconds(20));
+      stopwatch.Stop();
+      Console.WriteLine("Time elapsed: {0}", stopwatch.Elapsed);
+      wHandle.Dispose();
+
+    }
+
+
+    public static void TestDuration()
+    {
+      Console.WriteLine("Test Duration");
+
+      var a = new LogicalInput();
+      var wDur = new ForDurationGate(a.Value);
+      wDur.Value.Subscribe(z => Console.WriteLine(z.ToString()));
+      a.SetValue(true); 
+      a.SetValue(true);
+      a.SetValue(false);
+      a.SetValue(true);
+      a.SetValue(false);
+      a.SetValue(false);
+      a.SetValue(true);
+    }
+    static void Main(string[] args)
+    {
+      TestDuration();
+
+      TestInterval();
+
       Console.WriteLine("Test on next");
 
       var wListener = new SampleListener<int>();
       var wSender = new SampleNumberSender();
       wSender.Subscribe(wListener);
+
+
+
+
       Console.WriteLine("-----");
       TwoOrInputs();
       Console.WriteLine("-----");
+      ThreeOrInputs();
+      Console.WriteLine("-----");
+      MultiOrInputs();
+      Console.WriteLine("--- And --");
       TwoAndInputs();
       Console.WriteLine("-----"); 
       TripleAndInputs();
