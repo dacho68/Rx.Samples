@@ -9,14 +9,19 @@ namespace ConsoleApp.Modules
 {
   public class ForDurationGate:LogicalGate
   {
-    public ForDurationGate(IObservable<bool> iInput): base(iInput)
+
+    public ForDurationGate(IObservable<TimeSerie<bool>> iInput): base(iInput)
     {
+
     }
 
 
-    protected virtual bool Evaluate(bool x)
+    protected override TimeSerie<bool> Evaluate(TimeSerie<bool> x)
     {
-      return true;
+      var wTimeSerie = new TimeSerie<bool>();
+      wTimeSerie.Value = true;
+      LastValue = wTimeSerie;
+      return wTimeSerie;
     }
   }
 }

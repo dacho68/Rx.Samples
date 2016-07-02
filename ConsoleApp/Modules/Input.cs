@@ -16,6 +16,7 @@ namespace ConsoleApp.Modules
     protected Subject<T> valueStream = new Subject<T>();
     public IObservable<T> Value { get { return valueStream; } }
     public abstract void SetValue(T value);
+
     
   }
 }

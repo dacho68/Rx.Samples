@@ -9,181 +9,186 @@ namespace ConsoleApp.Modules
 {
   public class LogicalGate
   {
-    protected bool LastValue 
+    protected TimeSerie<bool> LastValue 
     {
       get; set;
     }
 
-    protected IObservable<bool>[] mParams;
+    protected IObservable<TimeSerie<bool>>[] mParams;
 
-    public LogicalGate(IObservable<bool> x)
+    public LogicalGate(IObservable<TimeSerie<bool>> x)
     {
       mValueStream = x.Select(Evaluate);
     }
 
-    public LogicalGate(IObservable<bool> x, IObservable<bool> y)
+    public LogicalGate(IObservable<TimeSerie<bool>> x, IObservable<TimeSerie<bool>> y)
     {
       mValueStream = x.CombineLatest(y, Evaluate);
     }
 
-    public LogicalGate(IObservable<bool> p1, IObservable<bool> p2, IObservable<bool> p3)
+    /*
+    public LogicalGate(IObservable<TimeSerie<bool>> p1, IObservable<TimeSerie<bool>> p2, IObservable<TimeSerie<bool>> p3)
     {
       mValueStream = p1.CombineLatest(p2, p3, Evaluate);
     }
-
-    public LogicalGate(IObservable<bool> p1, IObservable<bool> p2, IObservable<bool> p3, IObservable<bool> p4)
+    
+    public LogicalGate(IObservable<TimeSerie<bool>> p1, IObservable<TimeSerie<bool>> p2, IObservable<TimeSerie<bool>> p3, IObservable<TimeSerie<bool>> p4)
     {
       mValueStream = p1.CombineLatest(p2, p3, p4, Evaluate);
     }
 
-    public LogicalGate(IObservable<bool> p1, IObservable<bool> p2, IObservable<bool> p3, IObservable<bool> p4, IObservable<bool> p5)
+    public LogicalGate(IObservable<TimeSerie<bool>> p1, IObservable<TimeSerie<bool>> p2, IObservable<TimeSerie<bool>> p3, IObservable<TimeSerie<bool>> p4, IObservable<TimeSerie<bool>> p5)
     {
       mValueStream = p1.CombineLatest(p2, p3, p4, p5, Evaluate);
     }
 
-    public LogicalGate(IObservable<bool> p1, IObservable<bool> p2, IObservable<bool> p3, IObservable<bool> p4, IObservable<bool> p5, IObservable<bool> p6)
+    public LogicalGate(IObservable<TimeSerie<bool>> p1, IObservable<TimeSerie<bool>> p2, IObservable<TimeSerie<bool>> p3, IObservable<TimeSerie<bool>> p4, IObservable<TimeSerie<bool>> p5, IObservable<TimeSerie<bool>> p6)
     {
       mValueStream = p1.CombineLatest(p2, p3, p4, p5, p6, Evaluate);
     }
 
-    public LogicalGate(IObservable<bool> p1, IObservable<bool> p2, IObservable<bool> p3, IObservable<bool> p4, IObservable<bool> p5, IObservable<bool> p6, IObservable<bool> p7)
+    public LogicalGate(IObservable<TimeSerie<bool>> p1, IObservable<TimeSerie<bool>> p2, IObservable<TimeSerie<bool>> p3, IObservable<TimeSerie<bool>> p4, IObservable<TimeSerie<bool>> p5, IObservable<TimeSerie<bool>> p6, IObservable<TimeSerie<bool>> p7)
     {
       mValueStream = p1.CombineLatest(p2, p3, p4, p5, p6,p7, Evaluate);
     }
 
-    public LogicalGate(IObservable<bool> p1, IObservable<bool> p2, IObservable<bool> p3, IObservable<bool> p4, IObservable<bool> p5, IObservable<bool> p6, IObservable<bool> p7, IObservable<bool> p8)
+    public LogicalGate(IObservable<TimeSerie<bool>> p1, IObservable<TimeSerie<bool>> p2, IObservable<TimeSerie<bool>> p3, IObservable<TimeSerie<bool>> p4, IObservable<TimeSerie<bool>> p5, IObservable<TimeSerie<bool>> p6, IObservable<TimeSerie<bool>> p7, IObservable<TimeSerie<bool>> p8)
     {
       mValueStream = p1.CombineLatest(p2, p3, p4, p5, p6, p7,p8, Evaluate);
     }
 
-    public LogicalGate(IObservable<bool> p1, IObservable<bool> p2, IObservable<bool> p3, IObservable<bool> p4, IObservable<bool> p5, IObservable<bool> p6, IObservable<bool> p7, IObservable<bool> p8, IObservable<bool> p9)
+    public LogicalGate(IObservable<TimeSerie<bool>> p1, IObservable<TimeSerie<bool>> p2, IObservable<TimeSerie<bool>> p3, IObservable<TimeSerie<bool>> p4, IObservable<TimeSerie<bool>> p5, IObservable<TimeSerie<bool>> p6, IObservable<TimeSerie<bool>> p7, IObservable<TimeSerie<bool>> p8, IObservable<TimeSerie<bool>> p9)
     {
       mValueStream = p1.CombineLatest(p2, p3, p4, p5, p6, p7, p8, p9, Evaluate);
     }
 
-    public LogicalGate(IObservable<bool> p1, IObservable<bool> p2, IObservable<bool> p3, IObservable<bool> p4, IObservable<bool> p5, IObservable<bool> p6, IObservable<bool> p7, IObservable<bool> p8, IObservable<bool> p9, IObservable<bool> p10)
+    public LogicalGate(IObservable<TimeSerie<bool>> p1, IObservable<TimeSerie<bool>> p2, IObservable<TimeSerie<bool>> p3, IObservable<TimeSerie<bool>> p4, IObservable<TimeSerie<bool>> p5, IObservable<TimeSerie<bool>> p6, IObservable<TimeSerie<bool>> p7, IObservable<TimeSerie<bool>> p8, IObservable<TimeSerie<bool>> p9, IObservable<TimeSerie<bool>> p10)
     {
       mValueStream = p1.CombineLatest(p2, p3, p4, p5, p6, p7, p8, p9,p10, Evaluate);
     }
-    public LogicalGate(IObservable<bool> p1, IObservable<bool> p2, IObservable<bool> p3, IObservable<bool> p4, IObservable<bool> p5, IObservable<bool> p6, IObservable<bool> p7, IObservable<bool> p8, IObservable<bool> p9, IObservable<bool> p10, IObservable<bool> p11)
+    public LogicalGate(IObservable<TimeSerie<bool>> p1, IObservable<TimeSerie<bool>> p2, IObservable<TimeSerie<bool>> p3, IObservable<TimeSerie<bool>> p4, IObservable<TimeSerie<bool>> p5, IObservable<TimeSerie<bool>> p6, IObservable<TimeSerie<bool>> p7, IObservable<TimeSerie<bool>> p8, IObservable<TimeSerie<bool>> p9, IObservable<TimeSerie<bool>> p10, IObservable<TimeSerie<bool>> p11)
     {
       mValueStream = p1.CombineLatest(p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, Evaluate);
     }
 
-    public LogicalGate(IObservable<bool> p1, IObservable<bool> p2, IObservable<bool> p3, IObservable<bool> p4, IObservable<bool> p5, IObservable<bool> p6, IObservable<bool> p7, IObservable<bool> p8, IObservable<bool> p9, IObservable<bool> p10, IObservable<bool> p11, IObservable<bool> p12)
+    public LogicalGate(IObservable<TimeSerie<bool>> p1, IObservable<TimeSerie<bool>> p2, IObservable<TimeSerie<bool>> p3, IObservable<TimeSerie<bool>> p4, IObservable<TimeSerie<bool>> p5, IObservable<TimeSerie<bool>> p6, IObservable<TimeSerie<bool>> p7, IObservable<TimeSerie<bool>> p8, IObservable<TimeSerie<bool>> p9, IObservable<TimeSerie<bool>> p10, IObservable<TimeSerie<bool>> p11, IObservable<TimeSerie<bool>> p12)
     {
       mValueStream = p1.CombineLatest(p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, Evaluate);
     }
-    public LogicalGate(IObservable<bool> p1, IObservable<bool> p2, IObservable<bool> p3, IObservable<bool> p4, IObservable<bool> p5, IObservable<bool> p6, 
-    IObservable<bool> p7, IObservable<bool> p8, IObservable<bool> p9, IObservable<bool> p10, IObservable<bool> p11, IObservable<bool> p12,
-    IObservable<bool> p13)
+    public LogicalGate(IObservable<TimeSerie<bool>> p1, IObservable<TimeSerie<bool>> p2, IObservable<TimeSerie<bool>> p3, IObservable<TimeSerie<bool>> p4, IObservable<TimeSerie<bool>> p5, IObservable<TimeSerie<bool>> p6, 
+    IObservable<TimeSerie<bool>> p7, IObservable<TimeSerie<bool>> p8, IObservable<TimeSerie<bool>> p9, IObservable<TimeSerie<bool>> p10, IObservable<TimeSerie<bool>> p11, IObservable<TimeSerie<bool>> p12,
+    IObservable<TimeSerie<bool>> p13)
     {
       mValueStream = p1.CombineLatest(p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12,p13, Evaluate);
     }
-    public LogicalGate(IObservable<bool> p1, IObservable<bool> p2, IObservable<bool> p3, IObservable<bool> p4, IObservable<bool> p5, IObservable<bool> p6,
-      IObservable<bool> p7, IObservable<bool> p8, IObservable<bool> p9, IObservable<bool> p10, IObservable<bool> p11, IObservable<bool> p12,
-      IObservable<bool> p13, IObservable<bool> p14)
+    public LogicalGate(IObservable<TimeSerie<bool>> p1, IObservable<TimeSerie<bool>> p2, IObservable<TimeSerie<bool>> p3, IObservable<TimeSerie<bool>> p4, IObservable<TimeSerie<bool>> p5, IObservable<TimeSerie<bool>> p6,
+      IObservable<TimeSerie<bool>> p7, IObservable<TimeSerie<bool>> p8, IObservable<TimeSerie<bool>> p9, IObservable<TimeSerie<bool>> p10, IObservable<TimeSerie<bool>> p11, IObservable<TimeSerie<bool>> p12,
+      IObservable<TimeSerie<bool>> p13, IObservable<TimeSerie<bool>> p14)
     {
       mValueStream = p1.CombineLatest(p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, Evaluate);
     }
 
-    public LogicalGate(IObservable<bool> p1, IObservable<bool> p2, IObservable<bool> p3, IObservable<bool> p4, IObservable<bool> p5, IObservable<bool> p6,
-      IObservable<bool> p7, IObservable<bool> p8, IObservable<bool> p9, IObservable<bool> p10, IObservable<bool> p11, IObservable<bool> p12,
-      IObservable<bool> p13, IObservable<bool> p14, IObservable<bool> p15)
+    public LogicalGate(IObservable<TimeSerie<bool>> p1, IObservable<TimeSerie<bool>> p2, IObservable<TimeSerie<bool>> p3, IObservable<TimeSerie<bool>> p4, IObservable<TimeSerie<bool>> p5, IObservable<TimeSerie<bool>> p6,
+      IObservable<TimeSerie<bool>> p7, IObservable<TimeSerie<bool>> p8, IObservable<TimeSerie<bool>> p9, IObservable<TimeSerie<bool>> p10, IObservable<TimeSerie<bool>> p11, IObservable<TimeSerie<bool>> p12,
+      IObservable<TimeSerie<bool>> p13, IObservable<TimeSerie<bool>> p14, IObservable<TimeSerie<bool>> p15)
     {
       mValueStream = p1.CombineLatest(p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15, Evaluate);
     }
-    public LogicalGate()
-    {
-    }
-    public virtual void SetupInputList(IObservable<bool>[] iParams)
+    */
+
+    public LogicalGate(params IObservable<TimeSerie<bool>>[] iParams)
     {
       mParams = iParams;
     }
+  
+    //public virtual void SetupInputList(IObservable<TimeSerie<bool>>[] iParams)
+    //{
+    //  mParams = iParams;
+    //}
 
-    protected IObservable<bool> mValueStream;
-    public IObservable<bool> Value { get { return mValueStream; } }
+    protected IObservable<TimeSerie<bool>> mValueStream;
+    public IObservable<TimeSerie<bool>> Value { get { return mValueStream; } }
 
-    protected virtual bool Evaluate()
+    protected virtual TimeSerie<bool> Evaluate()
     {
-      return false;
+      return new TimeSerie<bool>() ;
     }
 
-    protected virtual bool Evaluate(bool x)
+    protected virtual TimeSerie<bool> Evaluate(TimeSerie<bool> x)
     {
-      return false;
+      return new TimeSerie<bool>();
     }
 
 
-    protected virtual bool Evaluate(bool x, bool y)
+    protected virtual TimeSerie<bool> Evaluate(TimeSerie<bool> x, TimeSerie<bool> y)
     {
-      return false;
+      return new TimeSerie<bool>();
+    }
+    /*
+    protected virtual TimeSerie<bool> Evaluate(TimeSerie<bool> p1, TimeSerie<bool> p2, TimeSerie<bool> p3)
+    {
+      return new TimeSerie<bool>();
+    }
+    protected virtual TimeSerie<bool> Evaluate(TimeSerie<bool> p1, TimeSerie<bool> p2, TimeSerie<bool> p3, TimeSerie<bool> p4)
+    {
+      return new TimeSerie<bool>();
     }
 
-    protected virtual bool Evaluate(bool p1, bool p2, bool p3)
+    protected virtual TimeSerie<bool> Evaluate(TimeSerie<bool> p1, TimeSerie<bool> p2, TimeSerie<bool> p3, TimeSerie<bool> p4, TimeSerie<bool> p5)
     {
-      return false;
-    }
-    protected virtual bool Evaluate(bool p1, bool p2, bool p3, bool p4)
-    {
-      return false;
+      return new TimeSerie<bool>();
     }
 
-    protected virtual bool Evaluate(bool p1, bool p2, bool p3, bool p4, bool p5)
+    protected virtual TimeSerie<bool> Evaluate(TimeSerie<bool> p1, TimeSerie<bool> p2, TimeSerie<bool> p3, TimeSerie<bool> p4, TimeSerie<bool> p5, TimeSerie<bool> p6)
     {
-      return false;
+      return new TimeSerie<bool>();
     }
 
-    protected virtual bool Evaluate(bool p1, bool p2, bool p3, bool p4, bool p5, bool p6)
+    protected virtual TimeSerie<bool> Evaluate(TimeSerie<bool> p1, TimeSerie<bool> p2, TimeSerie<bool> p3, TimeSerie<bool> p4, TimeSerie<bool> p5, TimeSerie<bool> p6, TimeSerie<bool> p7)
     {
-      return false;
+      return new TimeSerie<bool>();
     }
 
-    protected virtual bool Evaluate(bool p1, bool p2, bool p3, bool p4, bool p5, bool p6, bool p7)
+    protected virtual TimeSerie<bool> Evaluate(TimeSerie<bool> p1, TimeSerie<bool> p2, TimeSerie<bool> p3, TimeSerie<bool> p4, TimeSerie<bool> p5, TimeSerie<bool> p6, TimeSerie<bool> p7, TimeSerie<bool> p8)
     {
-      return false;
+      return new TimeSerie<bool>();
     }
 
-    protected virtual bool Evaluate(bool p1, bool p2, bool p3, bool p4, bool p5, bool p6, bool p7, bool p8)
+    protected virtual TimeSerie<bool> Evaluate(TimeSerie<bool> p1, TimeSerie<bool> p2, TimeSerie<bool> p3, TimeSerie<bool> p4, TimeSerie<bool> p5, TimeSerie<bool> p6, TimeSerie<bool> p7, TimeSerie<bool> p8, TimeSerie<bool> p9)
     {
-      return false;
+      return new TimeSerie<bool>();
     }
 
-    protected virtual bool Evaluate(bool p1, bool p2, bool p3, bool p4, bool p5, bool p6, bool p7, bool p8, bool p9)
+    protected virtual TimeSerie<bool> Evaluate(TimeSerie<bool> p1, TimeSerie<bool> p2, TimeSerie<bool> p3, TimeSerie<bool> p4, TimeSerie<bool> p5, TimeSerie<bool> p6, TimeSerie<bool> p7,TimeSerie<bool> p8, TimeSerie<bool> p9, TimeSerie<bool> p10)
     {
-      return false;
+      return new TimeSerie<bool>();
     }
 
-    protected virtual bool Evaluate(bool p1, bool p2, bool p3, bool p4, bool p5, bool p6, bool p7,bool p8, bool p9, bool p10)
+    protected virtual TimeSerie<bool> Evaluate(TimeSerie<bool> p1, TimeSerie<bool> p2, TimeSerie<bool> p3, TimeSerie<bool> p4, TimeSerie<bool> p5, TimeSerie<bool> p6, TimeSerie<bool> p7, TimeSerie<bool> p8, TimeSerie<bool> p9, TimeSerie<bool> p10, TimeSerie<bool> p11)
     {
-      return false;
+      return new TimeSerie<bool>();
     }
 
-    protected virtual bool Evaluate(bool p1, bool p2, bool p3, bool p4, bool p5, bool p6, bool p7, bool p8, bool p9, bool p10, bool p11)
+    protected virtual TimeSerie<bool> Evaluate(TimeSerie<bool> p1, TimeSerie<bool> p2, TimeSerie<bool> p3, TimeSerie<bool> p4, TimeSerie<bool> p5, TimeSerie<bool> p6, TimeSerie<bool> p7, TimeSerie<bool> p8, TimeSerie<bool> p9, TimeSerie<bool> p10, TimeSerie<bool> p11, TimeSerie<bool> p12)
     {
-      return false;
+      return new TimeSerie<bool>();
     }
 
-    protected virtual bool Evaluate(bool p1, bool p2, bool p3, bool p4, bool p5, bool p6, bool p7, bool p8, bool p9, bool p10, bool p11, bool p12)
+    protected virtual TimeSerie<bool> Evaluate(TimeSerie<bool> p1, TimeSerie<bool> p2, TimeSerie<bool> p3, TimeSerie<bool> p4, TimeSerie<bool> p5, TimeSerie<bool> p6, TimeSerie<bool> p7, TimeSerie<bool> p8, TimeSerie<bool> p9, TimeSerie<bool> p10, TimeSerie<bool> p11, TimeSerie<bool> p12, TimeSerie<bool> p13)
     {
-      return false;
+      return new TimeSerie<bool>();
     }
 
-    protected virtual bool Evaluate(bool p1, bool p2, bool p3, bool p4, bool p5, bool p6, bool p7, bool p8, bool p9, bool p10, bool p11, bool p12, bool p13)
+    protected virtual TimeSerie<bool> Evaluate(TimeSerie<bool> p1, TimeSerie<bool> p2, TimeSerie<bool> p3, TimeSerie<bool> p4, TimeSerie<bool> p5, TimeSerie<bool> p6, TimeSerie<bool> p7, TimeSerie<bool> p8, TimeSerie<bool> p9, TimeSerie<bool> p10, TimeSerie<bool> p11, TimeSerie<bool> p12, TimeSerie<bool> p13, TimeSerie<bool> p14)
     {
-      return false;
+      return new TimeSerie<bool>();
     }
 
-    protected virtual bool Evaluate(bool p1, bool p2, bool p3, bool p4, bool p5, bool p6, bool p7, bool p8, bool p9, bool p10, bool p11, bool p12, bool p13, bool p14)
+    protected virtual TimeSerie<bool> Evaluate(TimeSerie<bool> p1, TimeSerie<bool> p2, TimeSerie<bool> p3, TimeSerie<bool> p4, TimeSerie<bool> p5, TimeSerie<bool> p6, TimeSerie<bool> p7, TimeSerie<bool> p8, TimeSerie<bool> p9, TimeSerie<bool> p10, TimeSerie<bool> p11, TimeSerie<bool> p12, TimeSerie<bool> p13, TimeSerie<bool> p14, TimeSerie<bool> p15)
     {
-      return false;
+      return new TimeSerie<bool>();
     }
-
-    protected virtual bool Evaluate(bool p1, bool p2, bool p3, bool p4, bool p5, bool p6, bool p7, bool p8, bool p9, bool p10, bool p11, bool p12, bool p13, bool p14, bool p15)
-    {
-      return false;
-    }
-
+    */
 
   }
 }
