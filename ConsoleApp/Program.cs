@@ -39,8 +39,8 @@
       var a2 = new OrGate(a1.Value, c.Value);
       a2.Value.Subscribe(z => Console.WriteLine(z.ToString()));
 
-      a.SetValue(true);  // T
-      b.SetValue(false); // T
+      a.SetValue(true);  // 
+      b.SetValue(false); // 
       c.SetValue(true); // T + F + T = T
       a.SetValue(false); // F + F + T= T
       c.SetValue(false); // F + F + F = F
