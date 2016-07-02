@@ -53,6 +53,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Modules\AndGate.cs" />
+    <Compile Include="Modules\LogicalGate.cs" />
+    <Compile Include="Modules\Input.cs" />
+    <Compile Include="Modules\LogicalInput.cs" />
+    <Compile Include="Modules\OrGate.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
