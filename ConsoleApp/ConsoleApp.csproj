@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="Modules\AndGate.cs" />
     <Compile Include="Modules\AverageFx.cs" />
+    <Compile Include="Modules\ConverterGate.cs" />
     <Compile Include="Modules\ForDurationGate.cs" />
     <Compile Include="Modules\LogicalGate.cs" />
     <Compile Include="Modules\Input.cs" />
